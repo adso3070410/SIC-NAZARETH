@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import Login from './Login';
+import Dashboard from './Dashboard';
 
 function App() {
-  // Variable para saber si entramos o no
+  // Estado para controlar la navegación
   const [logeado, setLogeado] = useState(false);
 
   return (
     <div>
-      {/* Si no estamos logeados, mostramos el Login */}
       {logeado === false ? (
+        // Le pasamos la función para que el Login pueda avisar cuando entrar
         <Login alIngresar={() => setLogeado(true)} />
       ) : (
-        /* Cuando entremos, por ahora saldrá este mensaje */
-        <h1 style={{textAlign: 'center'}}>¡Bienvenida al Dashboard!</h1>
+        <Dashboard />
       )}
     </div>
   );
