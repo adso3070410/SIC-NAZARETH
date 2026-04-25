@@ -1,25 +1,34 @@
 import React from 'react';
 
-/**
- * ESTÁNDAR: Uso de arreglos y .map() para mostrar datos.
- * COMENTARIO: Menú principal con acceso a los módulos (CU).
- */
-function Dashboard({ navegarA }) {
+function Dashboard({ navegarA, rolUsuario }) {
   const modulos = [
-    { id: 'registro', nombre: 'Estudiantes', cu: 'CU-06' },
-    { id: 'notas', nombre: 'Notas', cu: 'CU-09' },
-    { id: 'docentes', nombre: 'Docentes', cu: 'CU-05' }
+    { id: 'registro', nombre: 'Estudiantes' },
+    { id: 'notas', nombre: 'Notas' },
+    { id: 'docentes', nombre: 'Docentes' }
   ];
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-      <h1 style={{ borderBottom: '2px solid blue' }}>SIA - Panel Principal</h1>
-      <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #3498db', paddingBottom: '10px' }}>
+        <div>
+          <h1 style={{ margin: 0 }}>SIA - Panel Principal</h1>
+          {/* MEJORA: Bienvenida con el Rol seleccionado */}
+          <p style={{ margin: 0, color: '#34495e', fontWeight: 'bold' }}>
+            Bienvenido(a): <span style={{ color: '#e67e22' }}>{rolUsuario || 'Usuario'}</span>
+          </p>
+        </div>
+        <button onClick={() => navegarA('login')} style={{ backgroundColor: '#e74c3c', color: 'white', border: 'none', padding: '10px 15px', borderRadius: '5px', cursor: 'pointer' }}>
+          Cerrar Sesión
+        </button>
+      </div>
+
+      <div style={{ display: 'flex', gap: '20px', marginTop: '30px' }}>
         {modulos.map((m) => (
-          <div key={m.id} style={{ border: '1px solid #999', padding: '15px', borderRadius: '8px', width: '150px' }}>
+          <div key={m.id} style={{ border: '1px solid #bdc3c7', padding: '20px', borderRadius: '10px', textAlign: 'center', backgroundColor: '#ecf0f1', width: '180px' }}>
             <h3>{m.nombre}</h3>
-            <p>{m.cu}</p>
-            <button onClick={() => navegarA(m.id)}>Abrir</button>
+            <button onClick={() => navegarA(m.id)} style={{ backgroundColor: '#3498db', color: 'white', border: 'none', padding: '8px', cursor: 'pointer', width: '100%' }}>
+              Abrir
+            </button>
           </div>
         ))}
       </div>
