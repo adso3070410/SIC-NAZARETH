@@ -6,35 +6,33 @@ import RegistroNotas from './components/RegistroNotas';
 import GestionDocentes from './components/GestionDocentes';
 
 /**
- * ESTÁNDAR: El componente raíz orquestador.
- * COMENTARIO: Aquí controlamos qué pantalla se muestra usando el estado 'seccion'.
+ * ESTÁNDAR: Componente raíz que organiza los módulos.
+ * COMENTARIO: Usamos el estado 'pantalla' para navegar sin recargar la página.
  */
 function App() {
-  const [seccion, setSeccion] = useState('login');
+  const [pantalla, setPantalla] = useState('login');
 
   return (
     <div>
-      {/* 1. Login: Le pasamos la función para ir al dashboard */}
-      {seccion === 'login' && (
-        <Login alIngresar={() => setSeccion('dashboard')} />
+      {/* Navegación Condicional */}
+      {pantalla === 'login' && (
+        <Login alEntrar={() => setPantalla('dashboard')} />
       )}
 
-      {/* 2. Dashboard: Le pasamos la función para navegar a los módulos */}
-      {seccion === 'dashboard' && (
-        <Dashboard alCambiarPantalla={(donde) => setSeccion(donde)} />
+      {pantalla === 'dashboard' && (
+        <Dashboard navegarA={(seccion) => setPantalla(seccion)} />
       )}
 
-      {/* 3. Módulos: Todos tienen un botón para volver al dashboard */}
-      {seccion === 'registro' && (
-        <RegistroEstudiantes alVolver={() => setSeccion('dashboard')} />
+      {pantalla === 'registro' && (
+        <RegistroEstudiantes alVolver={() => setPantalla('dashboard')} />
       )}
 
-      {seccion === 'notas' && (
-        <RegistroNotas alVolver={() => setSeccion('dashboard')} />
+      {pantalla === 'notas' && (
+        <RegistroNotas alVolver={() => setPantalla('dashboard')} />
       )}
 
-      {seccion === 'docentes' && (
-        <GestionDocentes alVolver={() => setSeccion('dashboard')} />
+      {pantalla === 'docentes' && (
+        <GestionDocentes alVolver={() => setPantalla('dashboard')} />
       )}
     </div>
   );

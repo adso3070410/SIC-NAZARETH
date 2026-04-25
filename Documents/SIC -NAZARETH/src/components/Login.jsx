@@ -1,41 +1,32 @@
 import React, { useState } from 'react';
 
 /**
- * ESTÁNDAR: Manejo de login simple.
- * COMENTARIO: Valida usuario y contraseña para entrar al sistema.
+ * ESTÁNDAR: Formulario controlado por estado.
+ * COMENTARIO: Valida el acceso al sistema (admin/123).
  */
-function Login({ alIngresar }) {
-  const [usuario, setUsuario] = useState('');
-  const [clave, setClave] = useState('');
+function Login({ alEntrar }) {
+  const [user, setUser] = useState('');
+  const [pass, setPass] = useState('');
 
-  const manejarEnvio = (e) => {
+  const validar = (e) => {
     e.preventDefault();
-    // Validamos datos básicos
-    if (usuario === 'admin' && clave === '123') {
-      alIngresar(); // <--- Aquí es donde debe conectar con App.jsx
+    if (user === 'admin' && pass === '123') {
+      alEntrar();
     } else {
-      alert("Usuario o clave incorrecta (admin / 123)");
+      alert("Datos incorrectos");
     }
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '100px', fontFamily: 'Arial' }}>
-      <h2>SIA - Colegio Nazareth</h2>
-      <form onSubmit={manejarEnvio} style={{ border: '1px solid #ccc', padding: '20px', display: 'inline-block', borderRadius: '8px' }}>
-        <input 
-          type="text" 
-          placeholder="Usuario" 
-          onChange={(e) => setUsuario(e.target.value)} 
-          style={{ marginBottom: '10px', display: 'block' }}
-        />
-        <input 
-          type="password" 
-          placeholder="Contraseña" 
-          onChange={(e) => setClave(e.target.value)} 
-          style={{ marginBottom: '10px', display: 'block' }}
-        />
-        <button type="submit" style={{ width: '100%', cursor: 'pointer' }}>Entrar al Sistema</button>
-      </form>
+    <div style={{ textAlign: 'center', marginTop: '100px', fontFamily: 'sans-serif' }}>
+      <div style={{ border: '1px solid #ccc', display: 'inline-block', padding: '30px', borderRadius: '10px' }}>
+        <h2>SIA - Iniciar Sesión</h2>
+        <form onSubmit={validar}>
+          <input type="text" placeholder="Usuario" onChange={(e) => setUser(e.target.value)} style={{ display: 'block', marginBottom: '10px' }} />
+          <input type="password" placeholder="Clave" onChange={(e) => setPass(e.target.value)} style={{ display: 'block', marginBottom: '10px' }} />
+          <button type="submit" style={{ width: '100%' }}>Entrar</button>
+        </form>
+      </div>
     </div>
   );
 }
