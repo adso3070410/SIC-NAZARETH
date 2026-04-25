@@ -1,56 +1,69 @@
 import React, { useState } from 'react';
 
-function Login({ alEntrar }) {
-  const [rol, setRol] = useState('Administrador');
-  const [user, setUser] = useState('');
-  const [pass, setPass] = useState('');
-  const [verPass, setVerPass] = useState(false);
+// COMPONENTE DE LOGIN: Permite el acceso según el rol seleccionado
+export default function Login({ alEntrar }) {
+  
+  // ESTADOS: Guardan la información que el usuario escribe
+  const [rol, setRol] = useState('Administrador'); // Guarda el actor seleccionado
+  const [usuario, setUsuario] = useState('');      // Guarda el nombre de usuario
+  const [clave, setClave] = useState('');          // Guarda la contraseña
 
-  const manejarValidacion = (e) => {
-    e.preventDefault();
-    if (!user || !pass) {
-      alert("Por favor, complete todos los campos.");
-      return;
-    }
-    // Credencial de prueba para todos los roles: admin / 123
-    if (user === 'admin' && pass === '123') {
-      alert(`¡Acceso Exitoso como ${rol}!`);
-      alEntrar(rol);
+  // FUNCIÓN VALIDAR: Se ejecuta cuando se da clic en el botón "Entrar"
+  const validarIngreso = (e) => {
+    e.preventDefault(); // Evita que la página se recargue sola
+
+    // VALIDACIÓN SIMPLE PARA EL PROYECTO (PMV)
+    if (usuario === 'admin' && clave === '123') {
+      alert("Acceso exitoso como " + rol);
+      alEntrar(rol); // Envía el rol al componente padre (App.jsx)
     } else {
-      alert("Usuario o contraseña incorrectos.");
+      alert("Error: Usuario o clave incorrectos");
     }
   };
 
-  const recuperarClave = () => {
-    const correo = prompt("Ingrese su correo institucional:");
-    if (correo) alert("Enlace enviado a: " + correo);
+  // ESTILOS BÁSICOS (Directo en el código para no usar archivos CSS externos)
+  const contenedorEstilo = {
+    textAlign: 'center',
+    marginTop: '50px',
+    fontFamily: 'Arial'
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'Arial' }}>
-      <div style={{ border: '2px solid #3498db', display: 'inline-block', padding: '30px', borderRadius: '15px' }}>
-        <h2>SIA - COLEGIO NAZARETH</h2>
-        <form onSubmit={manejarValidacion}>
-          <label>Seleccione su Rol:</label>
-          <select value={rol} onChange={(e) => setRol(e.target.value)} style={{ display: 'block', margin: '10px auto', padding: '10px', width: '250px' }}>
-            <option>Administrador</option>
-            <option>Docente</option>
-            <option>Estudiante</option>
-            <option>Administrativo</option>
-          </select>
-          <input type="text" placeholder="Usuario" onChange={(e) => setUser(e.target.value)} style={{ display: 'block', margin: '10px auto', padding: '10px', width: '230px' }} />
-          <div style={{ position: 'relative' }}>
-            <input type={verPass ? "text" : "password"} placeholder="Contraseña" onChange={(e) => setPass(e.target.value)} style={{ display: 'block', margin: '10px auto', padding: '10px', width: '230px' }} />
-            <button type="button" onClick={() => setVerPass(!verPass)} style={{ position: 'absolute', right: '15px', top: '10px', background: 'none', border: 'none' }}>
-              {verPass ? "👁️" : "🙈"}
-            </button>
-          </div>
-          <button type="submit" style={{ backgroundColor: '#3498db', color: 'white', padding: '10px', width: '100%', cursor: 'pointer' }}>INGRESAR</button>
-        </form>
-        <button onClick={recuperarClave} style={{ background: 'none', border: 'none', color: '#3498db', marginTop: '15px', cursor: 'pointer' }}>¿Olvidó su contraseña?</button>
-      </div>
+    <div style={contenedorEstilo}>
+      <h2>SIA - INICIO DE SESIÓN</h2>
+      
+      {/* Formulario de acceso */}
+      <form onSubmit={validarIngreso}>
+        
+        {/* 1. Selección de Actor */}
+        <label>Tipo de Usuario:</label><br />
+        <select value={rol} onChange={(e) => setRol(e.target.value)}>
+          <option value="Administrador">Administrador</option>
+          <option value="Docente">Docente</option>
+          <option value="Estudiante">Estudiante</option>
+          <option value="Administrativo">Administrativo</option>
+        </select>
+        <br /><br />
+
+        {/* 2. Campo Usuario */}
+        <input 
+          type="text" 
+          placeholder="Nombre de Usuario"
+          value={usuario}
+          onChange={(e) => setUsuario(e.target.value)} 
+        /><br /><br />
+
+        {/* 3. Campo Clave */}
+        <input 
+          type="password" 
+          placeholder="Contraseña" 
+          value={clave}
+          onChange={(e) => setClave(e.target.value)}
+        /><br /><br />
+
+        {/* Botón de envío */}
+        <button type="submit">INGRESAR AL SISTEMA</button>
+      </form>
     </div>
   );
 }
-
-export default Login;

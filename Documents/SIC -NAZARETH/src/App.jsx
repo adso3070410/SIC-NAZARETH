@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import RegistroEstudiantes from './components/RegistroEstudiantes';
 import RegistroNotas from './components/RegistroNotas';
 import GestionDocentes from './components/GestionDocentes';
 
+/**
+ * COMPONENTE RAÍZ: App.jsx
+ * Orquesta la navegación entre los módulos del sistema académico (PMV).
+ */
 function App() {
   const [pantalla, setPantalla] = useState('login');
   const [rolActivo, setRolActivo] = useState('');
 
-  return (
-    <div>
-      {pantalla === 'login' && (
-        <Login alEntrar={(rol) => {
-          setRolActivo(rol);
-          setPantalla('dashboard');
-        }} />
-      )}
+  // Función para manejar el acceso exitoso y asignar el rol
+  const manejarAcceso = (rol) => {
+    setRolActivo(rol);
+    setPantalla('dashboard');
+  };
 
+  return (
+    <div className="container">
+      {/* MÓDULO DE SEGURIDAD (CU-01) */}
+      {pantalla === 'login' && <Login alEntrar={manejarAcceso} />}
+
+      {/* PANEL DE BIENVENIDA TRAS ACCESO EXITOSO */}
       {pantalla === 'dashboard' && (
         <Dashboard 
           rolUsuario={rolActivo} 
@@ -24,17 +32,14 @@ function App() {
         />
       )}
 
-      {/* Aquí llamamos a los módulos reales que acabamos de crear */}
+      {/* MÓDULO DE REGISTRO ESTUDIANTIL Y CONSULTAS (CU-06 / CU-10) */}
+      {pantalla === 'registro' && <RegistroEstudiantes alVolver={() => setPantalla('dashboard')} />}
+
+      {/* MÓDULO DE CONTROL DE CALIFICACIONES (CU-09) */}
       {pantalla === 'notas' && <RegistroNotas alVolver={() => setPantalla('dashboard')} />}
+
+      {/* MÓDULO DE GESTIÓN DE PERSONAL DOCENTE (CU-05) */}
       {pantalla === 'docentes' && <GestionDocentes alVolver={() => setPantalla('dashboard')} />}
-      
-      {/* Si no has creado el de RegistroEstudiantes aún, este botón te dará error si lo abres, pero el sistema cargará */}
-      {pantalla === 'registro' && (
-        <div style={{padding:'20px'}}>
-          <h2>Módulo de Estudiantes en construcción</h2>
-          <button onClick={() => setPantalla('dashboard')}>Volver</button>
-        </div>
-      )}
     </div>
   );
 }
